@@ -1,6 +1,6 @@
 name: Test, Lint and Deployment Project
 on: [push, workflow_dispatch]
-jobs: 
+jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
@@ -9,7 +9,7 @@ jobs:
       - name: Install NodeJS
         uses: actions/setup-node@v3
         with:
-            node-versions: 18
+          node-versions: 18
       - name: Install dependencies
         run: npm ci
       - name: Run Lint
@@ -25,14 +25,14 @@ jobs:
       - name: Install NodeJS
         uses: actions/setup-node@v3
         with:
-            node-versions: 18
+          node-versions: 18
       - name: Install dependencies
         run: npm ci
       - name: Run test
         run: npm run test
       - name: Finishing tests
         run: echo "Finishing tests.....!"
-  deploy:
+  build:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -41,13 +41,26 @@ jobs:
       - name: Install NodeJS
         uses: actions/setup-node@v3
         with:
-            node-versions: 18
+          node-versions: 18
       - name: Install dependencies
         run: npm ci
       - name: Run Deployment
         run: npm run build
       - name: Finishing build
         run: echo "Finishing build.....!"
-
-
-
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install NodeJS
+        uses: actions/setup-node@v3
+        with:
+          node-versions: 18
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Deployment
+        run: echo "Starting deploy onto webserver....!"
+      - name: Finishing build
+        run: echo "Finishing build.....!"
