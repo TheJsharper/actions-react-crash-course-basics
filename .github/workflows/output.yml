@@ -1,7 +1,7 @@
 name: Output information about issues
-on: issue_comment
+on: [issue_comment, issues]
 jobs:
-  info-isssue:
+  info-issue:
     runs-on: ubuntu-latest
     steps:
       - name: Output Issue information
